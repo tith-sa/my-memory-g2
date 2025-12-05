@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;  
 import org.springframework.web.bind.annotation.RestController;
+
+import Group2.MyMemory.dto.loginRequest;
+import Group2.MyMemory.dto.loginResponse;
 import Group2.MyMemory.dto.registerRequest;
 import Group2.MyMemory.dto.registerResponse;
 import Group2.MyMemory.entity.User;
@@ -35,4 +38,15 @@ public class AuthController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<loginResponse> loginUser(@RequestBody loginRequest request) {
+        try {
+            loginResponse response = authService.login(request);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+    
 }
