@@ -9,10 +9,12 @@ import Group2.MyMemory.dto.registerRequest;
 import Group2.MyMemory.entity.User;
 import Group2.MyMemory.repository.UserRepository;
 import Group2.MyMemory.security.JwtUtil;
+import lombok.RequiredArgsConstructor;
 
 
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
 
 
@@ -20,29 +22,14 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
-    // Constructor injection
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtUtil = jwtUtil;
-    }
-
-    // Find user by username
-    public User findUserByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
-
-	public User findByEmailUser(String email) {
-		return userRepository.findByEmail(email);
-	}
 
     // Register a new user
     public User register(registerRequest request) {
         // Check if username already exists
-        if (findUserByUsername(request.getUsername()) != null) {
+        if (userRepository.findByUsername(request.getUsername()) != null) {
             throw new IllegalArgumentException("Username already exists");
         }
-		if (findByEmailUser(request.getEmail()) != null) {
+		if (userRepository.findByEmail(request.getEmail()) != null) {
 			throw new IllegalArgumentException("Email already exists");
 		}
 

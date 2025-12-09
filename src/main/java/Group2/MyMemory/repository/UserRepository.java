@@ -8,8 +8,7 @@ import Group2.MyMemory.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 	
-	 User findByEmail(String email);
-
+	User findByEmail(String email);
      User findByUsername(String username);
 
 	 

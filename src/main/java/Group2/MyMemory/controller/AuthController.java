@@ -13,15 +13,15 @@ import Group2.MyMemory.dto.registerRequest;
 import Group2.MyMemory.dto.registerResponse;
 import Group2.MyMemory.entity.User;
 import Group2.MyMemory.service.AuthService;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
 
-    public AuthController(AuthService authService) {
-        this.authService = authService;
-    }
+    
 
     @PostMapping("/register")
     public ResponseEntity<registerResponse> registerUser( @RequestBody registerRequest request) {
