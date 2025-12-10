@@ -1,5 +1,6 @@
 package Group2.MyMemory.dto;
 import lombok.Data;
+import java.util.List;
 
 
 
@@ -9,8 +10,8 @@ public class MemoryResponse{
 
     private Long id;
     private String tittle;
-    private String content;
-    private Long categoryId;
+    private List<String> content;
+    private List<Long> categoryId;
 
    
 }

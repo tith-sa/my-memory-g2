@@ -3,7 +3,8 @@ package Group2.MyMemory.dto;
 
 import lombok.Data;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;    
+import lombok.NoArgsConstructor;
+import java.util.List;    
 
 
 
@@ -13,6 +14,6 @@ import lombok.NoArgsConstructor;
 public class MemoryRequest {
     private String tittle;
     private String content;
-    private Long categoryId;
-    private String imageUrl ;    
+    private List<Long> categoryId;
+    private List<String> imageUrl ;    
 }
