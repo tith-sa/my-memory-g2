@@ -1,19 +1,16 @@
-
 package Group2.MyMemory.dto;
 
 import lombok.Data;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import java.util.List;    
 
-
-
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
 public class MemoryRequest {
+    
     private String tittle;
+    private String imageUrl;
     private String content;
-    private List<Long> categoryId;
-    private List<String> imageUrl ;    
+
+    private Long categoryId; // Used to look up Category entity
+    private Long userId;     // Used to look up User entity
+
+    // private List<Long> tagIds; // Include if implementing tags
 }

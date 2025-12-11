@@ -8,8 +8,9 @@ import Group2.MyMemory.dto.loginResponse;
 import Group2.MyMemory.dto.registerRequest;
 import Group2.MyMemory.entity.User;
 import Group2.MyMemory.repository.UserRepository;
-import Group2.MyMemory.security.JwtUtil;
+import Group2.MyMemory.security.JwtUtil;    
 import lombok.RequiredArgsConstructor;
+
 
 
 
@@ -21,6 +22,8 @@ public class AuthService {
 	private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+
+    
 
 
     // Register a new user

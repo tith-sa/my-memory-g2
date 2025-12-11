@@ -4,7 +4,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-// Assuming you have a Category entity defined elsewhere
 import Group2.MyMemory.entity.Category; 
 import Group2.MyMemory.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,22 +1,12 @@
 package Group2.MyMemory.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.JoinTable;
 import java.util.Set;
-
 
 
 @Entity
@@ -24,7 +14,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "memories")
-
 public class Memory{
 
     @Id
@@ -41,27 +30,26 @@ public class Memory{
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")  
     private String content;
 
-    @Column(name = "category_id")
-    private String categoryId;
+    // --- Many-to-One Relationship with Category ---
+    @ManyToOne(optional = false, fetch = FetchType.EAGER) 
+    @JoinColumn(name = "category_id", nullable = false) 
+    private Category category; 
+    // ----------------------------------------------
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    // --- Many-to-One Relationship with User ---
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id", nullable = false) 
+    private User user;  
+    // ------------------------------------------
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    private User user;  
 
     @ManyToMany
     @JoinTable(
         name = "memory_tags",   
         joinColumns = @JoinColumn(name = "memory_id"),
-
         inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private Set<Tag> tags;
-
-
 }
