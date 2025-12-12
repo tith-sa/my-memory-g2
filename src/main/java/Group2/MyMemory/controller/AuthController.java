@@ -11,7 +11,6 @@ import Group2.MyMemory.dto.loginRequest;
 import Group2.MyMemory.dto.loginResponse;
 import Group2.MyMemory.dto.registerRequest;
 import Group2.MyMemory.dto.registerResponse;
-import Group2.MyMemory.entity.User;
 import Group2.MyMemory.service.AuthService;
 import lombok.RequiredArgsConstructor;
 
@@ -26,13 +25,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<registerResponse> registerUser( @RequestBody registerRequest request) {
         try {
-            User newUser = authService.register(request);
-             registerResponse response = new registerResponse(
-            newUser.getId(),
-            newUser.getUsername(),
-            newUser.getEmail(),
-            newUser.getPassword()
-        );
+            registerResponse response = authService.register(request);
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();

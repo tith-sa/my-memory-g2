@@ -45,6 +45,14 @@ public class JwtUtil {
         }
     }
 
+     public Claims parseClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)          // must use Key, not String
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
     // Extract userId
     public Long getUserIdFromToken(String token) {
         Claims claims = Jwts.parserBuilder()
