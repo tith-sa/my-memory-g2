@@ -7,12 +7,12 @@ import java.time.LocalDateTime;
 public class MemoryResponse {
     
     private Long id;
-    private String tittle;
+    private String title;
     private String imageUrl;
     private String content;
 
     private Long categoryId;
-    private String categoryName; // Displays the connected category name
+    private String categoryName;
 
     private Long userId;
     private LocalDateTime createdAt;

@@ -5,7 +5,10 @@ import Group2.MyMemory.dto.MemoryResponse;
 import java.util.List;
 
 public interface MemoryService {
-    MemoryResponse createMemory(MemoryRequest request);
+    
+    // Signature accepts userId from the token via the controller
+    MemoryResponse createMemory(Long userId, MemoryRequest request); 
+    
     MemoryResponse getMemoryById(Long id);
     List<MemoryResponse> getAllMemories();
     List<MemoryResponse> getMemoriesByUserId(Long userId);

@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import java.util.Set;
 
 
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -21,8 +22,8 @@ public class Memory{
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "tittle", nullable = false)
-    private String tittle;
+    @Column(name = "title", nullable = false)
+    private String title;
 
     @Column(name = "image_url")
     private String imageUrl;
@@ -30,21 +31,18 @@ public class Memory{
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")  
     private String content;
 
-    // --- Many-to-One Relationship with Category ---
     @ManyToOne(optional = false, fetch = FetchType.EAGER) 
     @JoinColumn(name = "category_id", nullable = false) 
     private Category category; 
-    // ----------------------------------------------
 
-    // --- Many-to-One Relationship with User ---
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false) 
     private User user;  
-    // ------------------------------------------
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    // Assuming Tag entity exists
     @ManyToMany
     @JoinTable(
         name = "memory_tags",   

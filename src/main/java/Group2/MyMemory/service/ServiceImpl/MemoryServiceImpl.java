@@ -28,24 +28,23 @@ public class MemoryServiceImpl implements MemoryService {
     private CategoryRepository categoryRepository; 
 
     @Override
-    public MemoryResponse createMemory(MemoryRequest request) {
-        // 1. Fetch User
-        User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + request.getUserId()));
+    public MemoryResponse createMemory(Long userId, MemoryRequest request) { 
+        
+        // 1. Fetch User (using the secure ID from the token)
+        User user = userRepository.findById(userId) 
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
 
         // 2. Fetch Category
         Category category = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found with id: " + request.getCategoryId()));
 
         Memory memory = new Memory();
-        memory.setTittle(request.getTittle());
+        memory.setTitle(request.getTitle());
         memory.setContent(request.getContent());
         memory.setImageUrl(request.getImageUrl());
         
-        // 3. Set the Category OBJECT
+        // 3. Set the Category OBJECT and User OBJECT
         memory.setCategory(category); 
-        
-        // 4. Set the User OBJECT
         memory.setUser(user); 
         
         memory.setCreatedAt(LocalDateTime.now());
@@ -69,9 +68,10 @@ public class MemoryServiceImpl implements MemoryService {
                 .collect(Collectors.toList());
     }
 
-    @Override
+    @Override 
     public List<MemoryResponse> getMemoriesByUserId(Long userId) {
-        return memoryRepository.findByUserId(userId).stream() 
+        // Correct repository method name
+        return memoryRepository.findByUser_Id(userId).stream() 
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
     }
@@ -82,13 +82,13 @@ public class MemoryServiceImpl implements MemoryService {
                 .orElseThrow(() -> new RuntimeException("Memory not found with id: " + id));
 
         // Update Category only if a new ID is provided and it's different
-        if (request.getCategoryId() != null && !request.getCategoryId().equals(memory.getCategory().getId())) {
+        if (request.getCategoryId() != null && memory.getCategory() != null && !request.getCategoryId().equals(memory.getCategory().getId())) {
              Category newCategory = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found with id: " + request.getCategoryId()));
              memory.setCategory(newCategory);
         }
         
-        memory.setTittle(request.getTittle());
+        memory.setTitle(request.getTitle());
         memory.setContent(request.getContent());
         memory.setImageUrl(request.getImageUrl());
         memory.setUpdatedAt(LocalDateTime.now());
@@ -105,11 +105,11 @@ public class MemoryServiceImpl implements MemoryService {
         memoryRepository.deleteById(id);
     }
 
-    // Helper method to convert Entity to DTO (CRITICAL FOR DISPLAYING CATEGORY NAME)
+    // Helper method to convert Entity to DTO
     private MemoryResponse mapToResponse(Memory memory) {
         MemoryResponse response = new MemoryResponse();
         response.setId(memory.getId());
-        response.setTittle(memory.getTittle());
+        response.setTitle(memory.getTitle());
         response.setContent(memory.getContent());
         response.setImageUrl(memory.getImageUrl());
         
@@ -123,7 +123,7 @@ public class MemoryServiceImpl implements MemoryService {
         response.setUserId(memory.getUser().getId()); 
         
         response.setCreatedAt(memory.getCreatedAt());
-        response.setUpdatedAt(memory.getUpdatedAt());
+        response.setUpdatedAt(LocalDateTime.now());
         return response;
     }
 }
