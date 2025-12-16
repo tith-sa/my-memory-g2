@@ -4,8 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne; // New Import
+import jakarta.persistence.JoinColumn; // New Import
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -27,6 +27,11 @@ public class Memory {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    // A memory belongs to one category (Many-to-One relationship)
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category; // <--- NEW FIELD
 
     private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime updatedAt;

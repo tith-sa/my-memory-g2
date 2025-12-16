@@ -12,8 +12,10 @@ public class MemoryResponse {
     private Long id;
     private String title;
     private String content;
-    private Long userId; // The ID of the user who owns this memory
-    private String username; // Optional: include username for better context
+    private Long userId;
+    private String username;
+    private Long categoryId;   // <--- NEW FIELD
+    private String categoryName; // <--- NEW FIELD
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

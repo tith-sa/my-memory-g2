@@ -1,7 +1,9 @@
 package Group2.MyMemory.controller;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page; // New Import
+import org.springframework.data.domain.Pageable; // New Import
+import org.springframework.data.domain.Sort; // New Import
+import org.springframework.data.web.PageableDefault; // New Import
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +28,7 @@ public class MemoryController {
 
     private final MemoryService memoryService;
 
-    // --- CREATE ---
+    // CREATE: POST /api/memories (Requires categoryId in body)
     @PostMapping
     public ResponseEntity<MemoryResponse> createMemory(
             @RequestBody MemoryRequest request,
@@ -40,21 +42,21 @@ public class MemoryController {
         }
     }
 
-    // --- READ ALL (By User) ---
-    @GetMapping
-    public ResponseEntity<List<MemoryResponse>> getAllUserMemories(
-            @RequestHeader("Authorization") String token
+    // READ ALL (PAGINATED): GET /api/memories?page=0&size=10&sort=createdAt,desc
+    @GetMapping // <--- UPDATED METHOD
+    public ResponseEntity<Page<MemoryResponse>> getAllUserMemories(
+            @RequestHeader("Authorization") String token,
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         try {
-            List<MemoryResponse> memories = memoryService.getAllUserMemories(token);
+            Page<MemoryResponse> memories = memoryService.getAllUserMemories(token, pageable);
             return ResponseEntity.ok(memories);
         } catch (RuntimeException e) {
-            // Handle cases where token is invalid or user doesn't exist
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
-    // --- READ SINGLE ---
+    // READ SINGLE: GET /api/memories/{id}
     @GetMapping("/{id}")
     public ResponseEntity<MemoryResponse> getMemoryById(
             @PathVariable Long id,
@@ -64,15 +66,15 @@ public class MemoryController {
             MemoryResponse response = memoryService.getMemoryById(id, token);
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // Memory not found
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } catch (SecurityException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // Access denied
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // Token issue
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
-    // --- UPDATE ---
+    // UPDATE: PUT /api/memories/{id}
     @PutMapping("/{id}")
     public ResponseEntity<MemoryResponse> updateMemory(
             @PathVariable Long id,
@@ -91,7 +93,7 @@ public class MemoryController {
         }
     }
 
-    // --- DELETE ---
+    // DELETE: DELETE /api/memories/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMemory(
             @PathVariable Long id,
