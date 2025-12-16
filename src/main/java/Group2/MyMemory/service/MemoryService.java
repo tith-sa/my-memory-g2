@@ -55,4 +55,25 @@ public class MemoryService {
                 savedMemory.getCategory().getId()
         );
     }
+
+    public MemoryResponse getMemoryById(Long memoryId) {
+        // Get userId from JWT authentication
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = Long.parseLong(auth.getName());
+
+        // Fetch Memory entity
+        Memory memory = memoryRepository.findByIdAndUserId(memoryId, userId);
+        if (memory == null) {
+            throw new RuntimeException("Memory not found");
+        }
+
+        // Build response
+        return new MemoryResponse(
+                memory.getId(),
+                memory.getTitle(),
+                memory.getImageUrl(),
+                memory.getContent(),
+                memory.getCategory().getId()
+        );
+    } 
 }

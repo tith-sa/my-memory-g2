@@ -11,6 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+
 
 
 @RestController
@@ -29,5 +33,16 @@ public class MemoryController {
     }
     
 }
+
+    @GetMapping("/get/{memoryId}")
+    public ResponseEntity<MemoryResponse> getMemoryById(@PathVariable("memoryId") Long memoryId) {
+        try {
+            MemoryResponse response = memoryService.getMemoryById(memoryId);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+    
     
 }
