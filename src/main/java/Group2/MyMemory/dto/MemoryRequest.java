@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class MemoryRequest {
-    private String tittle;
+    private String title;
     private String content;
-    private Long categoryId;
+    private Long category;
     private String imageUrl ;    
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import Group2.MyMemory.dto.loginRequest;
 import Group2.MyMemory.dto.loginResponse;
 import Group2.MyMemory.dto.registerRequest;
+import Group2.MyMemory.dto.registerResponse;
 import Group2.MyMemory.entity.User;
 import Group2.MyMemory.repository.UserRepository;
 import Group2.MyMemory.security.JwtUtil;
@@ -24,7 +25,7 @@ public class AuthService {
 
 
     // Register a new user
-    public User register(registerRequest request) {
+    public registerResponse register(registerRequest request) {
         // Check if username already exists
         if (userRepository.findByUsername(request.getUsername()) != null) {
             throw new IllegalArgumentException("Username already exists");
@@ -43,7 +44,17 @@ public class AuthService {
         user.setPassword(encodedPassword);
 
         // Save to database
-        return userRepository.save(user);
+       User savedUser = userRepository.save(user);
+
+       String token = jwtUtil.generateToken(savedUser.getId(),savedUser.getEmail());
+
+        return new registerResponse(
+            token,
+            savedUser.getId(),
+            savedUser.getUsername(),
+            savedUser.getEmail(),
+            savedUser.getPassword()
+        );
     }
 
     // login
