@@ -9,6 +9,7 @@ import Group2.MyMemory.dto.MemoryResponse;
 import Group2.MyMemory.entity.Category;
 import Group2.MyMemory.entity.Memory;
 import Group2.MyMemory.entity.User;
+import Group2.MyMemory.exception.ResourceNotFoundException;
 import Group2.MyMemory.repository.CategoryRepository;
 import Group2.MyMemory.repository.MemoryRepository;
 import Group2.MyMemory.repository.UserRepository;
@@ -30,12 +31,11 @@ public class MemoryService {
 
         // Fetch User entity from DB
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         // Fetch Category entity
         Category category = categoryRepository.findById(request.getCategory())
-                .orElseThrow(() -> new RuntimeException("Category not found"));
-
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
         // Create and save Memory
         Memory memory = new Memory();
         memory.setTitle(request.getTitle());
@@ -64,7 +64,7 @@ public class MemoryService {
         // Fetch Memory entity
         Memory memory = memoryRepository.findByIdAndUserId(memoryId, userId);
         if (memory == null) {
-            throw new RuntimeException("Memory not found");
+            throw new ResourceNotFoundException("Memory not found");
         }
 
         // Build response

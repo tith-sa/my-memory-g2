@@ -1,7 +1,11 @@
 package Group2.MyMemory.service;
 
+import Group2.MyMemory.exception.BadRequestException;
+import Group2.MyMemory.exception.ResourceNotFoundException;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 import Group2.MyMemory.dto.loginRequest;
 import Group2.MyMemory.dto.loginResponse;
@@ -28,10 +32,10 @@ public class AuthService {
     public registerResponse register(registerRequest request) {
         // Check if username already exists
         if (userRepository.findByUsername(request.getUsername()) != null) {
-            throw new IllegalArgumentException("Username already exists");
+            throw new BadRequestException("Username '" + request.getUsername() + "' is already exists!");
         }
 		if (userRepository.findByEmail(request.getEmail()) != null) {
-			throw new IllegalArgumentException("Email already exists");
+			throw new BadRequestException("Email already exists");
 		}
 
         // Encode the password
@@ -62,12 +66,12 @@ public class AuthService {
 
         User user = userRepository.findByEmail(request.getEmail());
         if (user == null) {
-            throw new IllegalArgumentException("Invalid email or password");
+            throw new ResourceNotFoundException("Invalid email or password");
         }
 
         // Check password
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("Invalid email or password");
+            throw new ResourceNotFoundException("Invalid email or password");
         }
 
         String token = jwtUtil.generateToken(user.getId(),user.getEmail());

@@ -15,10 +15,5 @@ public class registerResponse {
 		this.password = password;
     }
 
-    // Getters
-    public String getToken() { return token; }
-    public Long getId() { return id; }
-    public String getUsername() { return username; }
-	public String getEmail() { return email; }
-	public String getPassword() { return password; }
+   
 }

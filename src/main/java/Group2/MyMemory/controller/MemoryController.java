@@ -25,23 +25,18 @@ public class MemoryController {
 
     @PostMapping("/create")
     public ResponseEntity<MemoryResponse> createMemory(@RequestBody MemoryRequest request) {
-    try {
+   
          MemoryResponse response = memoryService.createMemory(request);
         return ResponseEntity.ok(response);
-    } catch (IllegalArgumentException e) {
-        return ResponseEntity.badRequest().build();
-    }
+   
     
 }
 
     @GetMapping("/get/{memoryId}")
     public ResponseEntity<MemoryResponse> getMemoryById(@PathVariable("memoryId") Long memoryId) {
-        try {
+        
             MemoryResponse response = memoryService.getMemoryById(memoryId);
             return ResponseEntity.ok(response);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
     }
     
     

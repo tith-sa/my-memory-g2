@@ -21,12 +21,7 @@ public class MemoryResponse {
         this.categoryId = categoryId;
     }
 
-    // Getters
-    public Long getId() { return id; }
-    public String getTitle() { return title; }
-    public String getImageUrl() { return imageUrl; }        
-    public String getContent() { return content; }
-    public Long getCategoryId() { return categoryId; }
+    
 
 }
 
