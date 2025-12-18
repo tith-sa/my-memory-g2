@@ -28,7 +28,7 @@ public class MemoryController {
 
     private final MemoryService memoryService;
 
-    // CREATE: POST /api/memories (Requires categoryId in body)
+    // CREATE: POST /api/memories/ (Requires categoryId in body)
     @PostMapping
     public ResponseEntity<MemoryResponse> createMemory(
             @RequestBody MemoryRequest request,
