@@ -1,5 +1,8 @@
 package Group2.MyMemory.dto;
 
+import lombok.Data;
+
+@Data
 public class loginResponse {
     private String token;
     private Long id;

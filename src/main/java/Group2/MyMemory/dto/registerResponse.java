@@ -1,5 +1,8 @@
 package Group2.MyMemory.dto;
 
+import lombok.Data;
+
+@Data
 public class registerResponse {
     private String token;
     private String username;
