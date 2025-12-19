@@ -1,12 +1,14 @@
 package Group2.MyMemory.repository;
 
-import org.springframework.data.domain.Page; // New Import
-import org.springframework.data.domain.Pageable; // New Import
-import org.springframework.data.jpa.repository.JpaRepository;
 import Group2.MyMemory.entity.Memory;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 public interface MemoryRepository extends JpaRepository<Memory, Long> {
 
-    // Custom method to fetch memories for a user with pagination
-    Page<Memory> findByUserId(Long userId, Pageable pageable); // <--- NEW METHOD
+    // Search memories where title contains keyword (case-insensitive)
+    List<Memory> findByTitleContainingIgnoreCase(String keyword);
+
+    // Search memories where category name contains keyword (case-insensitive)
+    List<Memory> findByCategory_NameContainingIgnoreCase(String keyword);
 }
